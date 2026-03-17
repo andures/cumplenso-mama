@@ -109,80 +109,79 @@ body {
 /* ── iPhone SE and very short phones (≤ 700px tall) ── */
 @media (max-height: 700px) and (max-width: 599px) {
   .inv-num90 {
-    font-size: clamp(3rem, 9dvh, 3.8rem) !important;
+    font-size: clamp(3rem, 8.5dvh, 3.6rem) !important;
   }
   .inv-anios {
-    font-size: clamp(1.6rem, 5dvh, 2rem) !important;
+    font-size: clamp(1.5rem, 4.5dvh, 1.9rem) !important;
   }
   .inv-name {
-    font-size: clamp(2.2rem, 6.5dvh, 2.8rem) !important;
+    font-size: clamp(2rem, 6dvh, 2.6rem) !important;
   }
   .inv-divider {
-    margin-bottom: 6px !important;
+    margin-bottom: 4px !important;
   }
   .inv-joinus {
-    margin-bottom: 6px !important;
+    margin-bottom: 4px !important;
   }
   .inv-toppad {
-    padding-top: 16px !important;
-    padding-bottom: 16px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
   }
   .inv-bottomgap {
-    gap: 10px !important;
+    gap: 8px !important;
   }
   .inv-photo img {
-    width: 80px !important;
-    height: 130px !important;
+    width: 78px !important;
+    height: 126px !important;
   }
 }
 
 /* ── Galaxy S10 / A52 / S22 / A34 zone (701–840px tall, narrow phones) ── */
 @media (max-height: 840px) and (min-height: 701px) and (max-width: 599px) {
   .inv-num90 {
-    font-size: clamp(3.5rem, 9.5dvh, 4.2rem) !important;
+    font-size: clamp(3.8rem, 9.5dvh, 4.4rem) !important;
   }
   .inv-anios {
-    font-size: clamp(1.9rem, 5.5dvh, 2.2rem) !important;
+    font-size: clamp(2rem, 5.5dvh, 2.4rem) !important;
   }
   .inv-name {
-    font-size: clamp(2.6rem, 7dvh, 3rem) !important;
+    font-size: clamp(2.7rem, 7dvh, 3.1rem) !important;
   }
   .inv-divider {
-    margin-bottom: 8px !important;
+    margin-bottom: 6px !important;
   }
   .inv-joinus {
-    margin-bottom: 8px !important;
+    margin-bottom: 6px !important;
   }
   .inv-toppad {
-    padding-top: 20px !important;
-    padding-bottom: 20px !important;
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
   }
   .inv-bottomgap {
-    gap: 14px !important;
+    gap: 12px !important;
   }
   .inv-photo img {
-    width: 85px !important;
-    height: 140px !important;
+    width: 88px !important;
+    height: 146px !important;
   }
 }
 
 /* ── Wide phones, short-ish height: S10+ / S23 / iPhone 12 mini zone ── */
-/* 600px+ wide phones that miss the max-width: 599px queries above */
 @media (max-height: 870px) and (min-width: 390px) and (max-width: 599px) {
   .inv-num90 {
-    font-size: clamp(3.8rem, 10dvh, 4.8rem) !important;
+    font-size: clamp(4.2rem, 10dvh, 5rem) !important;
   }
   .inv-anios {
-    font-size: clamp(2.1rem, 6dvh, 2.4rem) !important;
+    font-size: clamp(2.3rem, 6dvh, 2.6rem) !important;
   }
   .inv-name {
-    font-size: clamp(2.8rem, 7.5dvh, 3.2rem) !important;
+    font-size: clamp(3rem, 7.5dvh, 3.4rem) !important;
   }
   .inv-toppad {
     padding-top: 22px !important;
     padding-bottom: 22px !important;
   }
   .inv-bottomgap {
-    gap: 16px !important;
+    gap: 14px !important;
   }
 }

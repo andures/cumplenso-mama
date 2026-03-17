@@ -738,7 +738,7 @@ export default function Invitation() {
               position: "relative",
               zIndex: 2,
               textAlign: "center",
-              pt: { xs: 3, sm: 7 },
+              pt: { xs: 4, sm: 7 },
               pb: { xs: 5, sm: 7 },
               px: { xs: 3, sm: 5, md: 7 },
               flex: 1,
@@ -756,7 +756,7 @@ export default function Invitation() {
                   display: "block",
                   fontFamily: '"Playfair Display", serif',
                   fontWeight: 700,
-                  fontSize: { xs: "4.5rem", sm: "8.5rem", md: "10rem" },
+                  fontSize: { xs: "5.5rem", sm: "8.5rem", md: "10rem" },
                   color: "#c9a84c",
                   lineHeight: 0.88,
                   animation:
@@ -773,7 +773,7 @@ export default function Invitation() {
                 sx={{
                   display: "block",
                   fontFamily: '"Great Vibes", cursive',
-                  fontSize: { xs: "2.3rem", sm: "4rem", md: "4.8rem" },
+                  fontSize: { xs: "2.8rem", sm: "4rem", md: "4.8rem" },
                   color: "#1a3a2a",
                   lineHeight: 1,
                   mt: { xs: "-0.1rem", sm: "-0.3rem" },
@@ -836,7 +836,7 @@ export default function Invitation() {
                 sx={{
                   display: "block",
                   fontFamily: '"Great Vibes", cursive',
-                  fontSize: { xs: "3rem", sm: "4.2rem", md: "5rem" },
+                  fontSize: { xs: "3.3rem", sm: "4.2rem", md: "5rem" },
                   lineHeight: 1.15,
                   mb: { xs: 1, sm: 2.5 },
                   color: "#1a3a2a",
@@ -892,8 +892,8 @@ export default function Invitation() {
                 flex: 1,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-evenly",
-                gap: { xs: 2.5, sm: 0 },
+                justifyContent: "flex-start",
+                gap: "clamp(16px, 3dvh, 44px)",
                 pt: { xs: 0, sm: 2 },
               }}
             >
