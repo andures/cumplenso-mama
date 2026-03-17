@@ -654,14 +654,17 @@ export default function Invitation() {
         sx={{
           bgcolor: "#f8f3ec",
           minHeight: "100dvh",
-          backgroundImage:
-            "linear-gradient(135deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
-            "linear-gradient(225deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
-            "linear-gradient(315deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
-            "linear-gradient(45deg, rgba(26,58,42,0.022) 25%,transparent 25%)",
-          backgroundSize: "5px 5px",
+          backgroundImage: {
+            xs: "none",
+            sm:
+              "linear-gradient(135deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
+              "linear-gradient(225deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
+              "linear-gradient(315deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
+              "linear-gradient(45deg, rgba(26,58,42,0.022) 25%,transparent 25%)",
+          },
+          backgroundSize: { xs: "0", sm: "5px 5px" },
           pt: 0,
-          pb: { xs: 3, sm: 5 },
+          pb: { xs: 1, sm: 5 },
           position: "relative",
         }}
       >
@@ -690,7 +693,7 @@ export default function Invitation() {
               zIndex: 0,
               minHeight: { xs: "unset", sm: 750 },
               /* Fade on mobile so text stays legible over it */
-              opacity: { xs: 0.22, sm: 0.3, md: 0.38 },
+              opacity: { xs: 0.14, sm: 0.3, md: 0.38 },
             }}
           >
             <BotanicalLeft />
@@ -734,7 +737,7 @@ export default function Invitation() {
               position: "relative",
               zIndex: 2,
               textAlign: "center",
-              pt: { xs: 5, sm: 7 },
+              pt: { xs: 3, sm: 7 },
               pb: { xs: 5, sm: 7 },
               px: { xs: 3, sm: 5, md: 7 },
               flex: 1,
@@ -751,7 +754,7 @@ export default function Invitation() {
                   display: "block",
                   fontFamily: '"Playfair Display", serif',
                   fontWeight: 700,
-                  fontSize: { xs: "6.5rem", sm: "8.5rem", md: "10rem" },
+                  fontSize: { xs: "5rem", sm: "8.5rem", md: "10rem" },
                   color: "#c9a84c",
                   lineHeight: 0.88,
                   animation:
@@ -767,7 +770,7 @@ export default function Invitation() {
                 sx={{
                   display: "block",
                   fontFamily: '"Great Vibes", cursive',
-                  fontSize: { xs: "3rem", sm: "4rem", md: "4.8rem" },
+                  fontSize: { xs: "2.5rem", sm: "4rem", md: "4.8rem" },
                   color: "#1a3a2a",
                   lineHeight: 1,
                   mt: { xs: "-0.1rem", sm: "-0.3rem" },
@@ -781,8 +784,8 @@ export default function Invitation() {
               {/* ── YEARS LOVED equivalent ── */}
               <Box
                 sx={{
-                  mt: 2,
-                  mb: 2,
+                  mt: { xs: 1, sm: 2 },
+                  mb: { xs: 1, sm: 2 },
                   animation: "fadeUp 0.8s ease both",
                   animationDelay: "0.35s",
                 }}
@@ -801,7 +804,7 @@ export default function Invitation() {
               {/* ── JOIN US ── */}
               <Box
                 sx={{
-                  mb: 2,
+                  mb: { xs: 1.5, sm: 2 },
                   animation: "fadeUp 0.8s ease both",
                   animationDelay: "0.5s",
                 }}
@@ -813,7 +816,7 @@ export default function Invitation() {
                     letterSpacing: "0.14em",
                     color: "#2d5a3d",
                     textTransform: "uppercase",
-                    lineHeight: 2,
+                    lineHeight: { xs: 1.6, sm: 2 },
                   }}
                 >
                   Ven a celebrar
@@ -830,7 +833,7 @@ export default function Invitation() {
                   fontFamily: '"Great Vibes", cursive',
                   fontSize: { xs: "3.4rem", sm: "4.2rem", md: "5rem" },
                   lineHeight: 1.15,
-                  mb: 2.5,
+                  mb: { xs: 1, sm: 2.5 },
                   color: "#1a3a2a",
                   background:
                     "linear-gradient(90deg,#a07830 0%,#c9a84c 25%,#e8cc7e 50%,#c9a84c 75%,#a07830 100%)",
@@ -850,7 +853,7 @@ export default function Invitation() {
                   display: "flex",
                   alignItems: "center",
                   gap: 1.5,
-                  mb: 2.5,
+                  mb: { xs: 1.5, sm: 2.5 },
                   mx: "auto",
                   width: { xs: 140, sm: 190 },
                   animation: "fadeUp 0.8s ease both",
@@ -883,7 +886,8 @@ export default function Invitation() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-evenly",
-                pt: { xs: 1, sm: 2 },
+                gap: { xs: 2.5, sm: 0 },
+                pt: { xs: 0, sm: 2 },
               }}
             >
               {/* ── Date & program ── */}
@@ -901,8 +905,8 @@ export default function Invitation() {
                     letterSpacing: "0.2em",
                     color: "#1a3a2a",
                     textTransform: "uppercase",
-                    lineHeight: 2,
-                    mb: { xs: 2, sm: 2.5 },
+                    lineHeight: { xs: 1.5, sm: 2 },
+                    mb: { xs: 1.5, sm: 2.5 },
                   }}
                 >
                   Sábado, 18 Abril 2026
@@ -955,7 +959,7 @@ export default function Invitation() {
                           letterSpacing: "0.08em",
                           color: "#4a6a56",
                           textTransform: "uppercase",
-                          lineHeight: 2.2,
+                          lineHeight: { xs: 1.8, sm: 2.2 },
                         }}
                       >
                         Capilla San Judas Tadeo
