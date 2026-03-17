@@ -1008,6 +1008,18 @@ export default function Invitation() {
                       >
                         1:00 PM — Club BCIE
                       </Typography>
+                      <Typography
+                        sx={{
+                          fontFamily: '"Cormorant Garamond", serif',
+                          fontSize: { xs: "1rem", sm: "0.98rem" },
+                          letterSpacing: "0.08em",
+                          color: "#4a6a56",
+                          textTransform: "uppercase",
+                          lineHeight: { xs: 1.8, sm: 2.2 },
+                        }}
+                      >
+                        Gran Salón
+                      </Typography>
                     </Box>
                   </Box>
                 </Box>
