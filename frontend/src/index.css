@@ -200,10 +200,10 @@ body {
   }
   .inv-toppad {
     padding-top: 36px !important;
-    padding-bottom: 36px !important;
+    padding-bottom: 20px !important;
   }
   .inv-bottomgap {
-    gap: clamp(20px, 4dvh, 36px) !important;
+    gap: clamp(12px, 2.8dvh, 26px) !important;
   }
   .inv-photo {
     top: 48px !important;
@@ -228,10 +228,10 @@ body {
   }
   .inv-toppad {
     padding-top: 44px !important;
-    padding-bottom: 44px !important;
+    padding-bottom: 24px !important;
   }
   .inv-bottomgap {
-    gap: clamp(24px, 4.5dvh, 48px) !important;
+    gap: clamp(14px, 3dvh, 30px) !important;
   }
   .inv-photo {
     top: 56px !important;
