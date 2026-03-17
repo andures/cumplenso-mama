@@ -496,17 +496,6 @@ const RosesOverlay = () => (
         swayDelay={4000}
       />
     </Box>
-    {/* Rose 3 – right side lower */}
-    <Box sx={{ position: "absolute", left: "65%", top: "41%" }}>
-      <CSSRoseBloom
-        delay={3500}
-        size={50}
-        c1="#a03448"
-        c2="#c85068"
-        c3="#eeb0bc"
-        swayDelay={4700}
-      />
-    </Box>
   </Box>
 );
 
@@ -673,7 +662,7 @@ export default function Invitation() {
           sx={{
             position: "relative",
             width: "100%",
-            maxWidth: { xs: "100%", sm: 520, md: 580 },
+            maxWidth: { xs: "100%", sm: 468, md: 522 },
             mx: "auto",
             minHeight: "100dvh",
             display: "flex",
@@ -756,7 +745,7 @@ export default function Invitation() {
                   display: "block",
                   fontFamily: '"Playfair Display", serif',
                   fontWeight: 700,
-                  fontSize: { xs: "5.5rem", sm: "8.5rem", md: "10rem" },
+                  fontSize: { xs: "5.5rem", sm: "7.5rem", md: "9rem" },
                   color: "#c9a84c",
                   lineHeight: 0.88,
                   animation:
@@ -773,7 +762,7 @@ export default function Invitation() {
                 sx={{
                   display: "block",
                   fontFamily: '"Great Vibes", cursive',
-                  fontSize: { xs: "2.8rem", sm: "4rem", md: "4.8rem" },
+                  fontSize: { xs: "2.8rem", sm: "3.6rem", md: "4.3rem" },
                   color: "#1a3a2a",
                   lineHeight: 1,
                   mt: { xs: "-0.1rem", sm: "-0.3rem" },
@@ -836,7 +825,7 @@ export default function Invitation() {
                 sx={{
                   display: "block",
                   fontFamily: '"Great Vibes", cursive',
-                  fontSize: { xs: "3.3rem", sm: "4.2rem", md: "5rem" },
+                  fontSize: { xs: "3.3rem", sm: "3.8rem", md: "4.5rem" },
                   lineHeight: 1.15,
                   mb: { xs: 1, sm: 2.5 },
                   color: "#1a3a2a",
