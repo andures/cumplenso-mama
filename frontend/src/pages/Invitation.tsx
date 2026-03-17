@@ -643,15 +643,10 @@ const AnimatedRose = () => (
 
 export default function Invitation() {
   const [rsvpOpen, setRsvpOpen] = useState(false);
-  const [confirmedCount, setConfirmedCount] = useState(0);
-
-  useEffect(() => {
-    if (!rsvpOpen) {
-      const all = getAttendees();
-      const total = all.reduce((sum, a) => sum + 1 + (a.companions ?? 0), 0);
-      setConfirmedCount(total);
-    }
-  }, [rsvpOpen]);
+  const confirmedCount = getAttendees().reduce(
+    (sum, a) => sum + 1 + (a.companions ?? 0),
+    0,
+  );
 
   return (
     <>
