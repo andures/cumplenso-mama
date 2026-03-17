@@ -637,23 +637,30 @@ export default function Invitation() {
     0,
   );
 
+  const [cardScale, setCardScale] = useState(1);
+  useEffect(() => {
+    const DESIGN_W = 468;
+    const update = () =>
+      setCardScale(Math.min(1, window.innerWidth / DESIGN_W));
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
   return (
     <>
       <Box
         sx={{
           bgcolor: "#f8f3ec",
           minHeight: "100dvh",
-          backgroundImage: {
-            xs: "none",
-            sm:
-              "linear-gradient(135deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
-              "linear-gradient(225deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
-              "linear-gradient(315deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
-              "linear-gradient(45deg, rgba(26,58,42,0.022) 25%,transparent 25%)",
-          },
-          backgroundSize: { xs: "0", sm: "5px 5px" },
+          backgroundImage:
+            "linear-gradient(135deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
+            "linear-gradient(225deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
+            "linear-gradient(315deg,rgba(26,58,42,0.022) 25%,transparent 25%)," +
+            "linear-gradient(45deg, rgba(26,58,42,0.022) 25%,transparent 25%)",
+          backgroundSize: "5px 5px",
           pt: 0,
-          pb: { xs: 1, sm: 5 },
+          pb: 0,
           position: "relative",
         }}
       >
@@ -661,28 +668,27 @@ export default function Invitation() {
         <Box
           sx={{
             position: "relative",
-            width: "100%",
-            maxWidth: { xs: "100%", sm: 468, md: 522 },
+            width: 468,
+            maxWidth: "100%",
             mx: "auto",
-            minHeight: "100dvh",
             display: "flex",
             flexDirection: "column",
-            boxShadow: { xs: "none", md: "0 8px 48px rgba(26,58,42,0.08)" },
+            boxShadow: "0 8px 48px rgba(26,58,42,0.08)",
+            zoom: cardScale,
           }}
         >
           {/* Left botanical — decorative watermark, does NOT push content */}
           <Box
             sx={{
               position: "absolute",
-              left: { xs: -8, sm: -14, md: 0 },
+              left: 0,
               top: 0,
-              width: { xs: "48%", sm: "44%", md: "42%" },
+              width: "42%",
               height: "100%",
               pointerEvents: "none",
               zIndex: 0,
-              minHeight: { xs: "unset", sm: 750 },
-              /* Fade on mobile so text stays legible over it */
-              opacity: { xs: 0.14, sm: 0.3, md: 0.38 },
+              minHeight: 750,
+              opacity: 0.38,
             }}
           >
             <BotanicalLeft />
@@ -692,12 +698,12 @@ export default function Invitation() {
           <Box
             sx={{
               position: "absolute",
-              left: { xs: -8, sm: -14, md: 0 },
+              left: 0,
               top: 0,
-              width: { xs: "48%", sm: "44%", md: "42%" },
+              width: "42%",
               height: "100%",
               pointerEvents: "none",
-              minHeight: { xs: "unset", sm: 750 },
+              minHeight: 750,
               zIndex: 1,
             }}
           >
@@ -708,13 +714,13 @@ export default function Invitation() {
           <Box
             sx={{
               position: "absolute",
-              right: { xs: 2, sm: 8 },
+              right: 8,
               top: 40,
-              width: { xs: 58, sm: 80 },
+              width: 80,
               height: 500,
               pointerEvents: "none",
               zIndex: 0,
-              opacity: { xs: 0.45, sm: 0.72, md: 0.88 },
+              opacity: 0.88,
             }}
           >
             <GoldRight />
@@ -722,15 +728,13 @@ export default function Invitation() {
 
           {/* ── Text content — FULL WIDTH, symmetric padding ── */}
           <Box
-            className="inv-toppad"
             sx={{
               position: "relative",
               zIndex: 2,
               textAlign: "center",
-              pt: { xs: 4, sm: 7 },
-              pb: { xs: 5, sm: 7 },
-              px: { xs: 3, sm: 5, md: 7 },
-              flex: 1,
+              pt: 6,
+              pb: 4,
+              px: 5,
               display: "flex",
               flexDirection: "column",
             }}
@@ -740,12 +744,11 @@ export default function Invitation() {
               {/* ── "90" — centered ── */}
               <Typography
                 component="span"
-                className="inv-num90"
                 sx={{
                   display: "block",
                   fontFamily: '"Playfair Display", serif',
                   fontWeight: 700,
-                  fontSize: { xs: "5.5rem", sm: "7.5rem", md: "9rem" },
+                  fontSize: "8rem",
                   color: "#c9a84c",
                   lineHeight: 0.88,
                   animation:
@@ -758,14 +761,13 @@ export default function Invitation() {
               {/* ── "Años" script ── */}
               <Typography
                 component="span"
-                className="inv-anios"
                 sx={{
                   display: "block",
                   fontFamily: '"Great Vibes", cursive',
-                  fontSize: { xs: "2.8rem", sm: "3.6rem", md: "4.3rem" },
+                  fontSize: "3.8rem",
                   color: "#1a3a2a",
                   lineHeight: 1,
-                  mt: { xs: "-0.1rem", sm: "-0.3rem" },
+                  mt: "-0.2rem",
                   animation: "fadeUp 0.8s ease both",
                   animationDelay: "0.2s",
                 }}
@@ -776,15 +778,15 @@ export default function Invitation() {
               {/* ── YEARS LOVED equivalent ── */}
               <Box
                 sx={{
-                  mt: { xs: 1, sm: 2 },
-                  mb: { xs: 1, sm: 2 },
+                  mt: 1.5,
+                  mb: 1.5,
                   animation: "fadeUp 0.8s ease both",
                   animationDelay: "0.35s",
                 }}
               >
                 <Box
                   sx={{
-                    width: { xs: 90, sm: 120 },
+                    width: 110,
                     height: "1.5px",
                     bgcolor: "#1a3a2a",
                     mx: "auto",
@@ -795,9 +797,8 @@ export default function Invitation() {
 
               {/* ── JOIN US ── */}
               <Box
-                className="inv-joinus"
                 sx={{
-                  mb: { xs: 1.5, sm: 2 },
+                  mb: 1.5,
                   animation: "fadeUp 0.8s ease both",
                   animationDelay: "0.5s",
                 }}
@@ -805,11 +806,11 @@ export default function Invitation() {
                 <Typography
                   sx={{
                     fontFamily: '"Cormorant Garamond", serif',
-                    fontSize: { xs: "0.88rem", sm: "1.05rem" },
+                    fontSize: "0.95rem",
                     letterSpacing: "0.14em",
                     color: "#2d5a3d",
                     textTransform: "uppercase",
-                    lineHeight: { xs: 1.6, sm: 2 },
+                    lineHeight: 1.8,
                   }}
                 >
                   Ven a celebrar
@@ -821,13 +822,12 @@ export default function Invitation() {
               {/* ── Honoree name ── */}
               <Typography
                 component="span"
-                className="inv-name"
                 sx={{
                   display: "block",
                   fontFamily: '"Great Vibes", cursive',
-                  fontSize: { xs: "3.3rem", sm: "3.8rem", md: "4.5rem" },
+                  fontSize: "4rem",
                   lineHeight: 1.15,
-                  mb: { xs: 1, sm: 2.5 },
+                  mb: 2,
                   color: "#1a3a2a",
                   background:
                     "linear-gradient(90deg,#a07830 0%,#c9a84c 25%,#e8cc7e 50%,#c9a84c 75%,#a07830 100%)",
@@ -843,14 +843,13 @@ export default function Invitation() {
 
               {/* ── Gold ornament divider ── */}
               <Box
-                className="inv-divider"
                 sx={{
                   display: "flex",
                   alignItems: "center",
                   gap: 1.5,
-                  mb: { xs: 1.5, sm: 2.5 },
+                  mb: 2,
                   mx: "auto",
-                  width: { xs: 140, sm: 190 },
+                  width: 180,
                   animation: "fadeUp 0.8s ease both",
                   animationDelay: "0.65s",
                 }}
@@ -876,14 +875,11 @@ export default function Invitation() {
             </Box>
             {/* ─── BOTTOM BLOCK ─── */}
             <Box
-              className="inv-bottomgap"
               sx={{
-                flex: 1,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "flex-start",
-                gap: "clamp(16px, 3dvh, 44px)",
-                pt: { xs: 0, sm: 2 },
+                gap: 2.5,
+                pt: 1,
               }}
             >
               {/* ── Date & program ── */}
@@ -897,12 +893,12 @@ export default function Invitation() {
                   sx={{
                     fontFamily: '"Cormorant Garamond", serif',
                     fontWeight: 600,
-                    fontSize: { xs: "1.15rem", sm: "1.3rem" },
+                    fontSize: "1.2rem",
                     letterSpacing: "0.2em",
                     color: "#1a3a2a",
                     textTransform: "uppercase",
-                    lineHeight: { xs: 1.5, sm: 2 },
-                    mb: { xs: 1.5, sm: 2.5 },
+                    lineHeight: 1.8,
+                    mb: 2,
                   }}
                 >
                   Sábado, 18 Abril 2026
@@ -911,7 +907,7 @@ export default function Invitation() {
                 {/* Event blocks wrapper — left-aligned, max-width centered */}
                 <Box
                   sx={{
-                    maxWidth: { xs: "100%", sm: 340 },
+                    maxWidth: 340,
                     mx: "auto",
                     textAlign: "left",
                   }}
@@ -922,12 +918,12 @@ export default function Invitation() {
                       display: "flex",
                       alignItems: "flex-start",
                       gap: 1.5,
-                      mb: { xs: 2.5, sm: 2 },
+                      mb: 2,
                     }}
                   >
                     <Typography
                       sx={{
-                        fontSize: { xs: "1.7rem", sm: "1.4rem" },
+                        fontSize: "1.5rem",
                         lineHeight: 1,
                         mt: "3px",
                         minWidth: 28,
@@ -940,7 +936,7 @@ export default function Invitation() {
                         sx={{
                           fontFamily: '"Cormorant Garamond", serif',
                           fontWeight: 600,
-                          fontSize: { xs: "1.12rem", sm: "1.08rem" },
+                          fontSize: "1.1rem",
                           letterSpacing: "0.13em",
                           color: "#1a3a2a",
                           textTransform: "uppercase",
@@ -951,11 +947,11 @@ export default function Invitation() {
                       <Typography
                         sx={{
                           fontFamily: '"Cormorant Garamond", serif',
-                          fontSize: { xs: "1rem", sm: "0.98rem" },
+                          fontSize: "1rem",
                           letterSpacing: "0.08em",
                           color: "#4a6a56",
                           textTransform: "uppercase",
-                          lineHeight: { xs: 1.8, sm: 2.2 },
+                          lineHeight: 2,
                         }}
                       >
                         Capilla San Judas Tadeo
@@ -966,11 +962,11 @@ export default function Invitation() {
                   </Box>
 
                   {/* Connecting line */}
-                  <Box sx={{ pl: "40px", mb: { xs: 2.5, sm: 1.8 } }}>
+                  <Box sx={{ pl: "40px", mb: 1.8 }}>
                     <Box
                       sx={{
                         width: "1px",
-                        height: { xs: 28, sm: 16 },
+                        height: 20,
                         bgcolor: "#c9a84c",
                         opacity: 0.6,
                       }}
@@ -983,7 +979,7 @@ export default function Invitation() {
                   >
                     <Typography
                       sx={{
-                        fontSize: { xs: "1.9rem", sm: "1.7rem" },
+                        fontSize: "1.7rem",
                         lineHeight: 1,
                         mt: "3px",
                         minWidth: 28,
@@ -996,7 +992,7 @@ export default function Invitation() {
                         sx={{
                           fontFamily: '"Cormorant Garamond", serif',
                           fontWeight: 600,
-                          fontSize: { xs: "1.12rem", sm: "1.08rem" },
+                          fontSize: "1.1rem",
                           letterSpacing: "0.13em",
                           color: "#1a3a2a",
                           textTransform: "uppercase",
@@ -1007,11 +1003,11 @@ export default function Invitation() {
                       <Typography
                         sx={{
                           fontFamily: '"Cormorant Garamond", serif',
-                          fontSize: { xs: "1rem", sm: "0.98rem" },
+                          fontSize: "1rem",
                           letterSpacing: "0.08em",
                           color: "#4a6a56",
                           textTransform: "uppercase",
-                          lineHeight: { xs: 1.8, sm: 2.2 },
+                          lineHeight: 2,
                         }}
                       >
                         Salón Principal
@@ -1031,13 +1027,13 @@ export default function Invitation() {
                   color: "#1a3a2a",
                   borderWidth: "1.5px",
                   borderRadius: 0,
-                  py: { xs: 1.5, sm: 1.8 },
+                  py: 1.6,
                   fontFamily: '"Cormorant Garamond", serif',
-                  fontSize: { xs: "1rem", sm: "1.1rem" },
+                  fontSize: "1.05rem",
                   letterSpacing: "0.26em",
                   textTransform: "uppercase",
                   transition: "all 0.3s ease",
-                  maxWidth: { xs: "100%", sm: 340 },
+                  maxWidth: 340,
                   mx: "auto",
                   animation: "fadeUp 0.8s ease both",
                   animationDelay: "0.95s",
@@ -1070,7 +1066,7 @@ export default function Invitation() {
                 <Typography
                   sx={{
                     fontFamily: '"Playfair Display", serif',
-                    fontSize: { xs: "0.95rem", sm: "1rem" },
+                    fontSize: "0.97rem",
                     color: "#3d6050",
                     letterSpacing: "0.06em",
                   }}
@@ -1094,7 +1090,7 @@ export default function Invitation() {
                       component="span"
                       sx={{
                         fontFamily: '"Cormorant Garamond", serif',
-                        fontSize: { xs: "1.05rem", sm: "1.1rem" },
+                        fontSize: "1.08rem",
                         color: "#c9a84c",
                         letterSpacing: "0.05em",
                         fontStyle: "italic",
@@ -1113,12 +1109,11 @@ export default function Invitation() {
 
           {/* ── Photo – top-right corner, responsive ── */}
           <Box
-            className="inv-photo"
             sx={{
               display: "block",
               position: "absolute",
-              left: { xs: "58%", md: "61%" },
-              top: { xs: "40px", md: "55px" },
+              left: "60%",
+              top: "44px",
               zIndex: 0,
               opacity: 1,
               animation: "swingIn 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both",
@@ -1129,8 +1124,8 @@ export default function Invitation() {
               src="/img/leticia_img.png"
               alt="Leticia"
               sx={{
-                width: { xs: 105, md: 145 },
-                height: { xs: 175, md: 240 },
+                width: 130,
+                height: 215,
                 objectFit: "contain",
                 objectPosition: "top center",
                 display: "block",
