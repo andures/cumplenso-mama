@@ -1,0 +1,7 @@
+#agents
+.agent/
+.agents/
+skills-lock.json
+#md
+REVIEW.md
+
