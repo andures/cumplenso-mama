@@ -733,6 +733,7 @@ export default function Invitation() {
 
           {/* ── Text content — FULL WIDTH, symmetric padding ── */}
           <Box
+            className="inv-toppad"
             sx={{
               position: "relative",
               zIndex: 2,
@@ -750,6 +751,7 @@ export default function Invitation() {
               {/* ── "90" — centered ── */}
               <Typography
                 component="span"
+                className="inv-num90"
                 sx={{
                   display: "block",
                   fontFamily: '"Playfair Display", serif',
@@ -767,6 +769,7 @@ export default function Invitation() {
               {/* ── "Años" script ── */}
               <Typography
                 component="span"
+                className="inv-anios"
                 sx={{
                   display: "block",
                   fontFamily: '"Great Vibes", cursive',
@@ -803,6 +806,7 @@ export default function Invitation() {
 
               {/* ── JOIN US ── */}
               <Box
+                className="inv-joinus"
                 sx={{
                   mb: { xs: 1.5, sm: 2 },
                   animation: "fadeUp 0.8s ease both",
@@ -828,6 +832,7 @@ export default function Invitation() {
               {/* ── Honoree name ── */}
               <Typography
                 component="span"
+                className="inv-name"
                 sx={{
                   display: "block",
                   fontFamily: '"Great Vibes", cursive',
@@ -849,6 +854,7 @@ export default function Invitation() {
 
               {/* ── Gold ornament divider ── */}
               <Box
+                className="inv-divider"
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -881,6 +887,7 @@ export default function Invitation() {
             </Box>
             {/* ─── BOTTOM BLOCK ─── */}
             <Box
+              className="inv-bottomgap"
               sx={{
                 flex: 1,
                 display: "flex",
@@ -1018,7 +1025,7 @@ export default function Invitation() {
                           lineHeight: { xs: 1.8, sm: 2.2 },
                         }}
                       >
-                        Gran Salón
+                        Salón Principal
                       </Typography>
                     </Box>
                   </Box>
@@ -1117,6 +1124,7 @@ export default function Invitation() {
 
           {/* ── Photo – top-right corner, responsive ── */}
           <Box
+            className="inv-photo"
             sx={{
               display: "block",
               position: "absolute",

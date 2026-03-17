@@ -98,3 +98,34 @@ body {
     opacity: 1;
   }
 }
+
+/* ══════════════════════════════════════════════════════
+   HEIGHT-BASED RESPONSIVE  (cannot be done in MUI sx)
+   Target:
+     ≤ 700px  = iPhone SE (375×667)
+     ≤ 790px  = Galaxy S10/A52/S22 (360×760–780)
+   ══════════════════════════════════════════════════════ */
+
+/* ── iPhone SE and very short phones (≤ 700px tall) ── */
+@media (max-height: 700px) and (max-width: 599px) {
+  .inv-num90      { font-size: clamp(3rem, 9dvh, 3.8rem) !important; }
+  .inv-anios      { font-size: clamp(1.6rem, 5dvh, 2rem) !important; }
+  .inv-name       { font-size: clamp(2.2rem, 6.5dvh, 2.8rem) !important; }
+  .inv-divider    { margin-bottom: 6px !important; }
+  .inv-joinus     { margin-bottom: 6px !important; }
+  .inv-toppad     { padding-top: 16px !important; padding-bottom: 16px !important; }
+  .inv-bottomgap  { gap: 10px !important; }
+  .inv-photo img  { width: 80px !important; height: 130px !important; }
+}
+
+/* ── Galaxy S10 / A52 / S22 zone (701–790px tall) ── */
+@media (max-height: 790px) and (min-height: 701px) and (max-width: 599px) {
+  .inv-num90      { font-size: clamp(3.5rem, 9.5dvh, 4.2rem) !important; }
+  .inv-anios      { font-size: clamp(1.9rem, 5.5dvh, 2.2rem) !important; }
+  .inv-name       { font-size: clamp(2.6rem, 7dvh, 3rem) !important; }
+  .inv-divider    { margin-bottom: 8px !important; }
+  .inv-joinus     { margin-bottom: 8px !important; }
+  .inv-toppad     { padding-top: 20px !important; padding-bottom: 20px !important; }
+  .inv-bottomgap  { gap: 14px !important; }
+  .inv-photo img  { width: 85px !important; height: 140px !important; }
+}
