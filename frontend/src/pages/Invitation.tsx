@@ -938,8 +938,9 @@ export default function Invitation() {
                         sx={{
                           fontFamily: '"Cormorant Garamond", serif',
                           fontSize: "1rem",
+                          fontWeight: 700,
                           letterSpacing: "0.08em",
-                          color: "#4a6a56",
+                          color: "#000000",
                           textTransform: "uppercase",
                           lineHeight: 2,
                         }}
@@ -994,8 +995,9 @@ export default function Invitation() {
                         sx={{
                           fontFamily: '"Cormorant Garamond", serif',
                           fontSize: "1rem",
+                          fontWeight: 700,
                           letterSpacing: "0.08em",
-                          color: "#4a6a56",
+                          color: "#000000",
                           textTransform: "uppercase",
                           lineHeight: 2,
                         }}
