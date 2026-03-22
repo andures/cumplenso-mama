@@ -474,22 +474,11 @@ const RosesOverlay = () => (
       pointerEvents: "none",
     }}
   >
-    {/* Rose 1 – upper right cluster */}
-    <Box sx={{ position: "absolute", left: "62%", top: "10%" }}>
-      <CSSRoseBloom
-        delay={2000}
-        size={50}
-        c1="#a83040"
-        c2="#d05060"
-        c3="#f0a0b0"
-        swayDelay={3300}
-      />
-    </Box>
-    {/* Rose 2 – left side mid */}
+    {/* Rose – left side mid */}
     <Box sx={{ position: "absolute", left: "28%", top: "27%" }}>
       <CSSRoseBloom
         delay={2800}
-        size={50}
+        size={45}
         c1="#982838"
         c2="#bf4555"
         c3="#ecaab0"
