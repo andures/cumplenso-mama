@@ -12,6 +12,8 @@ import {
   Paper,
   Button,
   TextField,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { getAttendees } from "../storage";
@@ -92,6 +94,13 @@ export default function Attendees() {
   const [keyError, setKeyError] = useState(false);
   const [attendees, setAttendees] = useState<Attendee[]>(() =>
     keyFromUrl ? getAttendees() : [],
+  );
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const totalPersonas = attendees.reduce(
+    (sum, a) => sum + 1 + (a.companions ?? 0),
+    0,
   );
 
   const handleUnlock = () => {
@@ -343,7 +352,7 @@ export default function Attendees() {
               gold: false,
             },
             {
-              label: `${attendees.length} ${attendees.length === 1 ? "persona confirmada" : "personas confirmadas"} ♥`,
+              label: `${totalPersonas} ${totalPersonas === 1 ? "persona confirmada" : "personas confirmadas"} ♥`,
               gold: true,
             },
           ].map(({ label, gold }) => (
@@ -379,7 +388,114 @@ export default function Attendees() {
           >
             Aún no hay asistentes confirmados.
           </Typography>
+        ) : isMobile ? (
+          /* ── Mobile: card per attendee ── */
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              animation: "fadeUp 0.8s ease both",
+              animationDelay: "0.4s",
+            }}
+          >
+            {attendees.map((a: Attendee, i: number) => (
+              <Box
+                key={a.id}
+                sx={{
+                  border: "1px solid rgba(201,168,76,0.35)",
+                  background: "rgba(248,243,236,0.9)",
+                  px: 2.5,
+                  py: 2,
+                }}
+              >
+                {/* Row: index + name */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    gap: 1.2,
+                    mb: 1.2,
+                    borderBottom: "1px solid rgba(201,168,76,0.2)",
+                    pb: 1,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontFamily: '"Playfair Display", serif',
+                      fontSize: "0.85rem",
+                      color: "#c9a84c",
+                      lineHeight: 1,
+                      minWidth: 18,
+                    }}
+                  >
+                    {i + 1}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontFamily: '"Cormorant Garamond", serif',
+                      fontWeight: 700,
+                      fontSize: "1.05rem",
+                      color: "#1a3a2a",
+                      letterSpacing: "0.04em",
+                      flex: 1,
+                    }}
+                  >
+                    {a.name}
+                  </Typography>
+                  {(a.companions ?? 0) > 0 && (
+                    <Typography
+                      sx={{
+                        fontFamily: '"Cormorant Garamond", serif',
+                        fontSize: "0.8rem",
+                        color: "#c9a84c",
+                        border: "1px solid rgba(201,168,76,0.5)",
+                        px: 0.8,
+                        py: 0.1,
+                        letterSpacing: "0.05em",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      +{a.companions} acompañante
+                      {(a.companions ?? 0) > 1 ? "s" : ""}
+                    </Typography>
+                  )}
+                </Box>
+
+                {/* Details grid */}
+                <Box
+                  sx={{ display: "flex", flexDirection: "column", gap: 0.6 }}
+                >
+                  {a.phone && (
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Typography sx={labelSx}>Tel.</Typography>
+                      <Typography sx={valueSx}>{a.phone}</Typography>
+                    </Box>
+                  )}
+                  {a.message && (
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Typography sx={labelSx}>Nota</Typography>
+                      <Typography sx={{ ...valueSx, fontStyle: "italic" }}>
+                        {a.message}
+                      </Typography>
+                    </Box>
+                  )}
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <Typography sx={labelSx}>Fecha</Typography>
+                    <Typography sx={valueSx}>
+                      {new Date(a.createdAt).toLocaleDateString("es-MX", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            ))}
+          </Box>
         ) : (
+          /* ── Desktop: full table ── */
           <TableContainer
             component={Paper}
             elevation={0}
@@ -394,18 +510,25 @@ export default function Attendees() {
             <Table>
               <TableHead>
                 <TableRow sx={{ background: "#1a3a2a" }}>
-                  {["#", "Nombre", "Teléfono", "Mensaje", "Fecha"].map((h) => (
+                  {[
+                    "#",
+                    "Nombre",
+                    "Acomp.",
+                    "Teléfono",
+                    "Mensaje",
+                    "Fecha",
+                  ].map((h) => (
                     <TableCell
                       key={h}
                       sx={{
                         color: "#f8f3ec",
                         fontFamily: '"Cormorant Garamond", serif',
-                        fontSize: { xs: "0.9rem", md: "1.05rem" },
+                        fontSize: "1.05rem",
                         fontWeight: 600,
                         letterSpacing: "0.12em",
                         textTransform: "uppercase",
                         borderBottom: "none",
-                        py: { xs: 1.8, md: 2.2 },
+                        py: 2.2,
                       }}
                     >
                       {h}
@@ -439,6 +562,30 @@ export default function Attendees() {
                       sx={{ ...cellSx, fontWeight: 600, color: "#1a3a2a" }}
                     >
                       {a.name}
+                    </TableCell>
+                    <TableCell sx={cellSx}>
+                      {(a.companions ?? 0) > 0 ? (
+                        <Typography
+                          sx={{
+                            fontFamily: '"Cormorant Garamond", serif',
+                            fontSize: "0.9rem",
+                            color: "#c9a84c",
+                          }}
+                        >
+                          +{a.companions}
+                        </Typography>
+                      ) : (
+                        <Typography
+                          sx={{
+                            color: "#b0bfb4",
+                            fontSize: "0.88rem",
+                            fontStyle: "italic",
+                            fontFamily: '"Cormorant Garamond", serif',
+                          }}
+                        >
+                          —
+                        </Typography>
+                      )}
                     </TableCell>
                     <TableCell sx={cellSx}>{a.phone || "—"}</TableCell>
                     <TableCell
@@ -477,8 +624,25 @@ export default function Attendees() {
 
 const cellSx = {
   fontFamily: '"Cormorant Garamond", serif',
-  fontSize: { xs: "0.98rem", md: "1.12rem" },
+  fontSize: "1.05rem",
   color: "#2a4535",
   borderColor: "rgba(201,168,76,0.2)",
-  py: { xs: 1.6, md: 2 },
+  py: 2,
+};
+
+const labelSx = {
+  fontFamily: '"Cormorant Garamond", serif',
+  fontSize: "0.78rem",
+  color: "#c9a84c",
+  letterSpacing: "0.12em",
+  textTransform: "uppercase" as const,
+  minWidth: 36,
+  pt: "2px",
+};
+
+const valueSx = {
+  fontFamily: '"Cormorant Garamond", serif',
+  fontSize: "0.97rem",
+  color: "#2a4535",
+  lineHeight: 1.5,
 };
