@@ -478,7 +478,7 @@ const RosesOverlay = () => (
     <Box sx={{ position: "absolute", left: "28%", top: "27%" }}>
       <CSSRoseBloom
         delay={2800}
-        size={45}
+        size={30}
         c1="#982838"
         c2="#bf4555"
         c3="#ecaab0"
