@@ -102,6 +102,42 @@ export default function RSVPForm({ open, onClose }: Props) {
                 Nos alegra que puedas acompañarnos en este momento tan especial.
               </Typography>
 
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 1,
+                  mb: 3,
+                  px: 2,
+                  py: 1,
+                  border: "1px solid rgba(201,168,76,0.35)",
+                  background: "rgba(201,168,76,0.06)",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: "1.4rem",
+                    lineHeight: 1,
+                    letterSpacing: "0.2em",
+                  }}
+                >
+                  🤵👗
+                </Typography>
+                <Typography
+                  sx={{
+                    fontFamily: '"Cormorant Garamond", serif',
+                    fontSize: "0.9rem",
+                    fontWeight: 600,
+                    letterSpacing: "0.2em",
+                    color: "#1a3a2a",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Semiformal
+                </Typography>
+              </Box>
+
               <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
                 <TextField
                   label="Tu nombre completo *"
@@ -160,16 +196,6 @@ export default function RSVPForm({ open, onClose }: Props) {
                     ))}
                   </Box>
                 </Box>
-                <TextField
-                  label="Mensaje para la festejada (opcional)"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  multiline
-                  rows={3}
-                  fullWidth
-                  variant="outlined"
-                  sx={fieldSx}
-                />
               </Box>
             </DialogContent>
 

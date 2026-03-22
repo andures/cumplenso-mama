@@ -515,7 +515,6 @@ export default function Attendees() {
                     "Nombre",
                     "Acomp.",
                     "Teléfono",
-                    "Mensaje",
                     "Fecha",
                   ].map((h) => (
                     <TableCell
@@ -588,22 +587,6 @@ export default function Attendees() {
                       )}
                     </TableCell>
                     <TableCell sx={cellSx}>{a.phone || "—"}</TableCell>
-                    <TableCell
-                      sx={{ ...cellSx, maxWidth: 220, whiteSpace: "normal" }}
-                    >
-                      {a.message || (
-                        <Typography
-                          sx={{
-                            color: "#b0bfb4",
-                            fontSize: "0.88rem",
-                            fontStyle: "italic",
-                            fontFamily: '"Cormorant Garamond", serif',
-                          }}
-                        >
-                          Sin mensaje
-                        </Typography>
-                      )}
-                    </TableCell>
                     <TableCell sx={{ ...cellSx, whiteSpace: "nowrap" }}>
                       {new Date(a.createdAt).toLocaleDateString("es-MX", {
                         day: "2-digit",
