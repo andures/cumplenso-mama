@@ -510,13 +510,7 @@ export default function Attendees() {
             <Table>
               <TableHead>
                 <TableRow sx={{ background: "#1a3a2a" }}>
-                  {[
-                    "#",
-                    "Nombre",
-                    "Acomp.",
-                    "Teléfono",
-                    "Fecha",
-                  ].map((h) => (
+                  {["#", "Nombre", "Acomp.", "Teléfono", "Fecha"].map((h) => (
                     <TableCell
                       key={h}
                       sx={{
