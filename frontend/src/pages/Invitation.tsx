@@ -797,7 +797,7 @@ export default function Invitation() {
                     fontFamily: '"Cormorant Garamond", serif',
                     fontSize: "0.95rem",
                     letterSpacing: "0.14em",
-                    color: "#2d5a3d",
+                    color: "#1a3a2a",
                     textTransform: "uppercase",
                     lineHeight: 1.8,
                   }}
