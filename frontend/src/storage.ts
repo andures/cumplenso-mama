@@ -1,26 +1,43 @@
+import { supabase } from "./supabase";
 import type { Attendee } from "./types";
 
-const STORAGE_KEY = "cumple_abuela_attendees";
-
-export function getAttendees(): Attendee[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as Attendee[]) : [];
-  } catch {
-    return [];
-  }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function rowToAttendee(row: any): Attendee {
+  return {
+    id: row.id as string,
+    name: row.name as string,
+    phone: (row.phone as string | null) ?? undefined,
+    companions: (row.companions as number) ?? 0,
+    message: (row.message as string | null) ?? undefined,
+    createdAt: row.created_at as string,
+  };
 }
 
-export function addAttendee(
+export async function getAttendees(): Promise<Attendee[]> {
+  const { data, error } = await supabase
+    .from("attendees")
+    .select("*")
+    .order("created_at", { ascending: true });
+  if (error) {
+    console.error("getAttendees:", error);
+    return [];
+  }
+  return (data ?? []).map(rowToAttendee);
+}
+
+export async function addAttendee(
   attendee: Omit<Attendee, "id" | "createdAt">,
-): Attendee {
-  const all = getAttendees();
-  const newEntry: Attendee = {
-    ...attendee,
-    id: crypto.randomUUID(),
-    createdAt: new Date().toISOString(),
-  };
-  all.push(newEntry);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
-  return newEntry;
+): Promise<Attendee> {
+  const { data, error } = await supabase
+    .from("attendees")
+    .insert({
+      name: attendee.name,
+      phone: attendee.phone || null,
+      companions: attendee.companions,
+      message: attendee.message || null,
+    })
+    .select()
+    .single();
+  if (error) throw error;
+  return rowToAttendee(data);
 }

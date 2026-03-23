@@ -25,6 +25,7 @@ export default function RSVPForm({ open, onClose }: Props) {
   const [withCompanion, setWithCompanion] = useState(false);
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [snack, setSnack] = useState(false);
   const [errors, setErrors] = useState<{ name?: string }>({});
 
@@ -35,16 +36,23 @@ export default function RSVPForm({ open, onClose }: Props) {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) return;
-    addAttendee({
-      name: name.trim(),
-      phone: phone.trim(),
-      companions: withCompanion ? 1 : 0,
-      message: message.trim(),
-    });
-    setSubmitted(true);
-    setSnack(true);
+    setLoading(true);
+    try {
+      await addAttendee({
+        name: name.trim(),
+        phone: phone.trim(),
+        companions: withCompanion ? 1 : 0,
+        message: message.trim(),
+      });
+      setSubmitted(true);
+      setSnack(true);
+    } catch (err) {
+      console.error("Error al guardar asistencia:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleClose = () => {
@@ -211,9 +219,10 @@ export default function RSVPForm({ open, onClose }: Props) {
                 onClick={handleSubmit}
                 variant="contained"
                 startIcon={<FavoriteIcon />}
+                disabled={loading}
                 sx={containedBtnSx}
               >
-                Confirmo mi asistencia
+                {loading ? "Guardando..." : "Confirmo mi asistencia"}
               </Button>
             </DialogActions>
           </>

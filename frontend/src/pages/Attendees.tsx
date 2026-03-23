@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+﻿import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -92,11 +92,19 @@ export default function Attendees() {
   const [authorized, setAuthorized] = useState(keyFromUrl);
   const [keyInput, setKeyInput] = useState("");
   const [keyError, setKeyError] = useState(false);
-  const [attendees, setAttendees] = useState<Attendee[]>(() =>
-    keyFromUrl ? getAttendees() : [],
-  );
+  const [attendees, setAttendees] = useState<Attendee[]>([]);
+  const [loadingData, setLoadingData] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  useEffect(() => {
+    if (!authorized) return;
+    setLoadingData(true);
+    getAttendees()
+      .then((data) => setAttendees(data))
+      .catch(() => {})
+      .finally(() => setLoadingData(false));
+  }, [authorized]);
 
   const totalPersonas = attendees.reduce(
     (sum, a) => sum + 1 + (a.companions ?? 0),
@@ -106,7 +114,6 @@ export default function Attendees() {
   const handleUnlock = () => {
     if (keyInput === SECRET_KEY) {
       setAuthorized(true);
-      setAttendees(getAttendees());
       setKeyError(false);
     } else {
       setKeyError(true);
@@ -374,7 +381,21 @@ export default function Attendees() {
           ))}
         </Box>
 
-        {attendees.length === 0 ? (
+        {loadingData ? (
+          <Typography
+            sx={{
+              textAlign: "center",
+              fontFamily: '"Cormorant Garamond", serif',
+              fontSize: "1.1rem",
+              color: "#4a6a56",
+              mt: 6,
+              letterSpacing: "0.08em",
+              fontStyle: "italic",
+            }}
+          >
+            Cargando asistentes…
+          </Typography>
+        ) : attendees.length === 0 ? (
           <Typography
             sx={{
               textAlign: "center",

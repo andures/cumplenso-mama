@@ -621,10 +621,17 @@ const AnimatedRose = () => (
 
 export default function Invitation() {
   const [rsvpOpen, setRsvpOpen] = useState(false);
-  const confirmedCount = getAttendees().reduce(
-    (sum, a) => sum + 1 + (a.companions ?? 0),
-    0,
-  );
+  const [confirmedCount, setConfirmedCount] = useState(0);
+
+  useEffect(() => {
+    getAttendees()
+      .then((list) =>
+        setConfirmedCount(
+          list.reduce((sum, a) => sum + 1 + (a.companions ?? 0), 0),
+        ),
+      )
+      .catch(() => {});
+  }, [rsvpOpen]); // re-fetch after RSVP dialog closes
 
   const [cardScale, setCardScale] = useState(1);
   useEffect(() => {
