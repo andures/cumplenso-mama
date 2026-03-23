@@ -12,11 +12,19 @@ import {
   Paper,
   Button,
   TextField,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Tooltip,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { getAttendees } from "../storage";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { getAttendees, updateAttendee, deleteAttendee } from "../storage";
 import type { Attendee } from "../types";
 
 const SECRET_KEY = "abuela90";
@@ -94,8 +102,59 @@ export default function Attendees() {
   const [keyError, setKeyError] = useState(false);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
   const [loadingData, setLoadingData] = useState(false);
+
+  // Edit dialog
+  const [editTarget, setEditTarget] = useState<Attendee | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const [editCompanions, setEditCompanions] = useState(0);
+  const [saving, setSaving] = useState(false);
+
+  // Delete dialog
+  const [deleteTarget, setDeleteTarget] = useState<Attendee | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const openEdit = (a: Attendee) => {
+    setEditTarget(a);
+    setEditName(a.name);
+    setEditPhone(a.phone ?? "");
+    setEditCompanions(a.companions);
+  };
+
+  const handleEditSave = async () => {
+    if (!editTarget || !editName.trim()) return;
+    setSaving(true);
+    try {
+      const updated = await updateAttendee(editTarget.id, {
+        name: editName.trim(),
+        phone: editPhone.trim(),
+        companions: editCompanions,
+      });
+      setAttendees((prev) => prev.map((a) => (a.id === updated.id ? updated : a)));
+      setEditTarget(null);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    try {
+      await deleteAttendee(deleteTarget.id);
+      setAttendees((prev) => prev.filter((a) => a.id !== deleteTarget.id));
+      setDeleteTarget(null);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   useEffect(() => {
     if (!authorized) return;
@@ -512,6 +571,22 @@ export default function Attendees() {
                     </Typography>
                   </Box>
                 </Box>
+
+                {/* Actions */}
+                <Box sx={{ display: "flex", gap: 1, mt: 1.5, justifyContent: "flex-end" }}>
+                  <Tooltip title="Editar">
+                    <IconButton size="small" onClick={() => openEdit(a)}
+                      sx={{ color: "#1a3a2a", "&:hover": { color: "#c9a84c" } }}>
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Eliminar">
+                    <IconButton size="small" onClick={() => setDeleteTarget(a)}
+                      sx={{ color: "#9a3a2a", "&:hover": { color: "#c0392b" } }}>
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
               </Box>
             ))}
           </Box>
@@ -531,7 +606,7 @@ export default function Attendees() {
             <Table>
               <TableHead>
                 <TableRow sx={{ background: "#1a3a2a" }}>
-                  {["#", "Nombre", "Acomp.", "Teléfono", "Fecha"].map((h) => (
+                  {["#", "Nombre", "Acomp.", "Teléfono", "Fecha", ""].map((h) => (
                     <TableCell
                       key={h}
                       sx={{
@@ -609,6 +684,22 @@ export default function Attendees() {
                         year: "numeric",
                       })}
                     </TableCell>
+                    <TableCell sx={{ ...cellSx, py: 0.5 }}>
+                      <Box sx={{ display: "flex", gap: 0.5 }}>
+                        <Tooltip title="Editar">
+                          <IconButton size="small" onClick={() => openEdit(a)}
+                            sx={{ color: "#1a3a2a", "&:hover": { color: "#c9a84c" } }}>
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Eliminar">
+                          <IconButton size="small" onClick={() => setDeleteTarget(a)}
+                            sx={{ color: "#9a3a2a", "&:hover": { color: "#c0392b" } }}>
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -616,9 +707,92 @@ export default function Attendees() {
           </TableContainer>
         )}
       </Box>
+
+      {/* ── Edit Dialog ── */}
+      <Dialog open={!!editTarget} onClose={() => setEditTarget(null)} maxWidth="xs" fullWidth
+        PaperProps={{ sx: { borderRadius: 2, background: "#f8f3ec", border: "1px solid #c9d9cb" } }}>
+        <DialogTitle sx={{ fontFamily: '"Great Vibes", cursive', fontSize: "2rem", color: "#1a3a2a", pb: 0 }}>
+          Editar asistente
+        </DialogTitle>
+        <DialogContent sx={{ pt: 2, display: "flex", flexDirection: "column", gap: 2.5 }}>
+          <TextField label="Nombre completo *" value={editName} onChange={(e) => setEditName(e.target.value)}
+            fullWidth variant="outlined" sx={fieldSx} />
+          <TextField label="Teléfono" value={editPhone} onChange={(e) => setEditPhone(e.target.value)}
+            fullWidth variant="outlined" sx={fieldSx} />
+          <Box>
+            <Typography sx={{ fontFamily: '"Cormorant Garamond", serif', fontSize: "0.9rem", color: "#4a6a56", mb: 1, letterSpacing: "0.06em" }}>
+              Acompañante
+            </Typography>
+            <Box sx={{ display: "flex", gap: 1.5 }}>
+              {[{ label: "Solo / Sola", value: 0 }, { label: "Con acompañante", value: 1 }].map(({ label, value }) => (
+                <Box key={label} onClick={() => setEditCompanions(value)}
+                  sx={{ flex: 1, py: 1.4, textAlign: "center", cursor: "pointer", border: "1.5px solid",
+                    borderColor: editCompanions === value ? "#1a3a2a" : "#c9d9cb",
+                    background: editCompanions === value ? "#1a3a2a" : "transparent",
+                    color: editCompanions === value ? "#f8f3ec" : "#1a3a2a",
+                    fontFamily: '"Cormorant Garamond", serif', fontSize: "1rem",
+                    letterSpacing: "0.06em", transition: "all 0.2s", userSelect: "none" }}>
+                  {label}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: "center", pb: 3, gap: 2 }}>
+          <Button onClick={() => setEditTarget(null)} variant="outlined" sx={outlinedBtnSx}>Cancelar</Button>
+          <Button onClick={handleEditSave} variant="contained" disabled={saving || !editName.trim()} sx={containedBtnSx}>
+            {saving ? "Guardando..." : "Guardar"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* ── Delete Confirm Dialog ── */}
+      <Dialog open={!!deleteTarget} onClose={() => setDeleteTarget(null)} maxWidth="xs" fullWidth
+        PaperProps={{ sx: { borderRadius: 2, background: "#f8f3ec", border: "1px solid #c9d9cb" } }}>
+        <DialogTitle sx={{ fontFamily: '"Cormorant Garamond", serif', fontSize: "1.3rem", color: "#1a3a2a", fontWeight: 600 }}>
+          ¿Eliminar asistente?
+        </DialogTitle>
+        <DialogContent>
+          <Typography sx={{ fontFamily: '"Cormorant Garamond", serif', fontSize: "1.05rem", color: "#4a6a56" }}>
+            Se eliminará a <strong>{deleteTarget?.name}</strong> de la lista. Esta acción no se puede deshacer.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: "center", pb: 3, gap: 2 }}>
+          <Button onClick={() => setDeleteTarget(null)} variant="outlined" sx={outlinedBtnSx}>Cancelar</Button>
+          <Button onClick={handleDeleteConfirm} variant="contained" disabled={deleting}
+            sx={{ ...containedBtnSx, background: "#8b1a1a", "&:hover": { background: "#6b1313" } }}>
+            {deleting ? "Eliminando..." : "Eliminar"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </Box>
   );
 }
+
+const fieldSx = {
+  "& label": { fontFamily: '"Cormorant Garamond", serif' },
+  "& .MuiOutlinedInput-root": {
+    fontFamily: '"Cormorant Garamond", serif',
+    "&.Mui-focused fieldset": { borderColor: "#1a3a2a" },
+  },
+  "& label.Mui-focused": { color: "#1a3a2a" },
+};
+
+const outlinedBtnSx = {
+  borderColor: "#1a3a2a", color: "#1a3a2a", borderWidth: "1.5px", borderRadius: 0,
+  fontFamily: '"Cormorant Garamond", serif', fontSize: "0.95rem", letterSpacing: "0.12em",
+  textTransform: "uppercase" as const, px: 3,
+  "&:hover": { background: "rgba(26,58,42,0.06)" },
+};
+
+const containedBtnSx = {
+  background: "#1a3a2a", color: "#f8f3ec", borderRadius: 0,
+  fontFamily: '"Cormorant Garamond", serif', fontSize: "0.95rem", letterSpacing: "0.12em",
+  textTransform: "uppercase" as const, px: 3,
+  "&:hover": { background: "#0f2418" },
+  "&:disabled": { background: "#9ab0a2", color: "#f8f3ec" },
+};
 
 const cellSx = {
   fontFamily: '"Cormorant Garamond", serif',

@@ -41,3 +41,26 @@ export async function addAttendee(
   if (error) throw error;
   return rowToAttendee(data);
 }
+
+export async function updateAttendee(
+  id: string,
+  fields: { name: string; phone?: string; companions: number },
+): Promise<Attendee> {
+  const { data, error } = await supabase
+    .from("attendees")
+    .update({
+      name: fields.name,
+      phone: fields.phone || null,
+      companions: fields.companions,
+    })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) throw error;
+  return rowToAttendee(data);
+}
+
+export async function deleteAttendee(id: string): Promise<void> {
+  const { error } = await supabase.from("attendees").delete().eq("id", id);
+  if (error) throw error;
+}
