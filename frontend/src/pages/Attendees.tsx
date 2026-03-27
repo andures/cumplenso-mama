@@ -182,7 +182,9 @@ export default function Attendees() {
       "Total personas": 1 + (a.companions ?? 0),
       Teléfono: a.phone ?? "",
       Fecha: new Date(a.createdAt).toLocaleDateString("es-MX", {
-        day: "2-digit", month: "short", year: "numeric",
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
       }),
     }));
 
@@ -197,7 +199,14 @@ export default function Attendees() {
     });
 
     const ws = XLSX.utils.json_to_sheet(rows);
-    ws["!cols"] = [{ wch: 4 }, { wch: 30 }, { wch: 14 }, { wch: 16 }, { wch: 18 }, { wch: 16 }];
+    ws["!cols"] = [
+      { wch: 4 },
+      { wch: 30 },
+      { wch: 14 },
+      { wch: 16 },
+      { wch: 18 },
+      { wch: 16 },
+    ];
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Asistentes");
     XLSX.writeFile(wb, "asistentes-cumple-leticia.xlsx");
@@ -358,7 +367,16 @@ export default function Attendees() {
       </Box>
 
       <Box sx={{ position: "relative", zIndex: 1, maxWidth: 860, mx: "auto" }}>
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 4, flexWrap: "wrap", gap: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 4,
+            flexWrap: "wrap",
+            gap: 1,
+          }}
+        >
           <Button
             startIcon={<ArrowBackIcon />}
             onClick={() => navigate("/")}
