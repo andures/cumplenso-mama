@@ -24,6 +24,8 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DownloadIcon from "@mui/icons-material/Download";
+import * as XLSX from "xlsx";
 import { getAttendees, updateAttendee, deleteAttendee } from "../storage";
 import type { Attendee } from "../types";
 
@@ -171,6 +173,35 @@ export default function Attendees() {
     (sum, a) => sum + 1 + (a.companions ?? 0),
     0,
   );
+
+  const handleExportExcel = () => {
+    const rows = attendees.map((a, i) => ({
+      "#": i + 1,
+      Nombre: a.name,
+      Acompañante: (a.companions ?? 0) > 0 ? "Sí" : "No",
+      "Total personas": 1 + (a.companions ?? 0),
+      Teléfono: a.phone ?? "",
+      Fecha: new Date(a.createdAt).toLocaleDateString("es-MX", {
+        day: "2-digit", month: "short", year: "numeric",
+      }),
+    }));
+
+    // Summary row
+    rows.push({
+      "#": null as unknown as number,
+      Nombre: "TOTAL CONFIRMADOS",
+      Acompañante: "",
+      "Total personas": totalPersonas,
+      Teléfono: "",
+      Fecha: "",
+    });
+
+    const ws = XLSX.utils.json_to_sheet(rows);
+    ws["!cols"] = [{ wch: 4 }, { wch: 30 }, { wch: 14 }, { wch: 16 }, { wch: 18 }, { wch: 16 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Asistentes");
+    XLSX.writeFile(wb, "asistentes-cumple-leticia.xlsx");
+  };
 
   const handleUnlock = () => {
     if (keyInput === SECRET_KEY) {
@@ -327,21 +358,45 @@ export default function Attendees() {
       </Box>
 
       <Box sx={{ position: "relative", zIndex: 1, maxWidth: 860, mx: "auto" }}>
-        <Button
-          startIcon={<ArrowBackIcon />}
-          onClick={() => navigate("/")}
-          sx={{
-            mb: 4,
-            color: "#1a3a2a",
-            fontFamily: '"Cormorant Garamond", serif',
-            fontSize: "1rem",
-            letterSpacing: "0.06em",
-            textTransform: "none",
-            "&:hover": { background: "transparent", color: "#c9a84c" },
-          }}
-        >
-          Volver a la invitación
-        </Button>
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 4, flexWrap: "wrap", gap: 1 }}>
+          <Button
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate("/")}
+            sx={{
+              color: "#1a3a2a",
+              fontFamily: '"Cormorant Garamond", serif',
+              fontSize: "1rem",
+              letterSpacing: "0.06em",
+              textTransform: "none",
+              "&:hover": { background: "transparent", color: "#c9a84c" },
+            }}
+          >
+            Volver a la invitación
+          </Button>
+
+          {attendees.length > 0 && (
+            <Button
+              startIcon={<DownloadIcon />}
+              onClick={handleExportExcel}
+              variant="outlined"
+              sx={{
+                borderColor: "#1a3a2a",
+                color: "#1a3a2a",
+                borderWidth: "1.5px",
+                borderRadius: 0,
+                fontFamily: '"Cormorant Garamond", serif',
+                fontSize: "0.9rem",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                px: 2,
+                py: 0.8,
+                "&:hover": { background: "#1a3a2a", color: "#f8f3ec" },
+              }}
+            >
+              Exportar Excel
+            </Button>
+          )}
+        </Box>
 
         <Box
           sx={{
