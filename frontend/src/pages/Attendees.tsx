@@ -175,7 +175,9 @@ export default function Attendees() {
   );
 
   const handleExportExcel = () => {
-    const rows = attendees.map((a, i) => ({
+    const rows = [...attendees]
+      .sort((a, b) => a.name.localeCompare(b.name, "es"))
+      .map((a, i) => ({
       "#": i + 1,
       Nombre: a.name,
       Acompañante: (a.companions ?? 0) > 0 ? "Sí" : "No",

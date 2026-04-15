@@ -17,7 +17,7 @@ export async function getAttendees(): Promise<Attendee[]> {
   const { data, error } = await supabase
     .from("attendees")
     .select("*")
-    .order("created_at", { ascending: true });
+    .order("name", { ascending: true });
   if (error) {
     console.error("getAttendees:", error);
     return [];
